@@ -1,4 +1,4 @@
-def publishVulnerabilityReport() {
+def call(Map<String, Object> params) {
     def influxdb = Jenkins.instance.getDescriptorByType(jenkinsci.plugins.influxdb.DescriptorImpl)
 
 
