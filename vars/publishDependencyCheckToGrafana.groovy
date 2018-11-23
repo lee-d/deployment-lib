@@ -10,10 +10,10 @@ def call(Map<String, Object> params) {
         // Set target details
         // Mandatory fields
         target.description = 'grafana'
-        target.url = 'http://172.17.0.1:8086'
+        target.url = 'http://10.30.2.66:8086'
         target.username = 'admin'
         target.password = 'admin'
-        target.database = 'test'
+        target.database = 'jenkins'
 
         influxdb.addTarget(target)
         influxdb.save()
