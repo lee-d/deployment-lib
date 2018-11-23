@@ -1,3 +1,4 @@
+@NonCPS
 def call(Map<String, Object> params) {
     def databaseName = params.databaseName
     def influxdb = Jenkins.instance.getDescriptorByType(jenkinsci.plugins.influxdb.DescriptorImpl)
