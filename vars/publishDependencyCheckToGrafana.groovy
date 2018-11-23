@@ -13,7 +13,7 @@ def call(Map<String, Object> params) {
         target.url = url
         target.username = username
         target.password = password
-        target.database =
+        target.database = databaseName
         influxdb.addTarget(target)
         influxdb.save()
     }
