@@ -3,17 +3,17 @@ def call(Map<String, Object> params) {
     def influxdb = Jenkins.instance.getDescriptorByType(jenkinsci.plugins.influxdb.DescriptorImpl)
 
 
-    if (!influxdb.getTargets().any {it.description.equals('grafana')}) {
+    if (!influxdb.getTargets().any {it.description.equals('jenkins_codefluegel')}) {
         // Create target
         def target = new jenkinsci.plugins.influxdb.models.Target()
 
         // Set target details
         // Mandatory fields
-        target.description = 'grafana'
+        target.description = 'jenkins_codefluegel'
         target.url = 'http://10.30.2.66:8086'
         target.username = 'admin'
         target.password = 'admin'
-        target.database = 'jenkins'
+        target.database = 'jenkins_codefluegel'
 
         influxdb.addTarget(target)
         influxdb.save()
@@ -50,5 +50,5 @@ def call(Map<String, Object> params) {
     dependencyCheckMap['highest-severity'] = highestSeverityMap
     dependencyCheckMap['normal-severity'] = normalSeverityMap
 
-    step([$class: 'InfluxDbPublisher', target: 'grafana', selectedTarget: 'grafana', customPrefix: null, customDataMap: dependencyCheckMap])
+    step([$class: 'InfluxDbPublisher', target: 'jenkins_codefluegel', selectedTarget: 'jenkins_codefluegel', customPrefix: null, customDataMap: dependencyCheckMap])
 }
