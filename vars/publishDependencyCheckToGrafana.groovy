@@ -5,21 +5,15 @@ def call(Map<String, Object> params) {
     def username = params.username
     def password = params.password
     def reportPath = params.reportPath ?: "${workspace}/target/dependency-check-report.xml"
-
     def influxdb = Jenkins.instance.getDescriptorByType(jenkinsci.plugins.influxdb.DescriptorImpl
 
-    if (!influxdb.getTargets().any {it.description.equals(databaseName)}) {
-        // Create target
+    if (!influxdb.getTargets().any {it.description.equals(databaseName)})
         def target = new jenkinsci.plugins.influxdb.models.Target()
-
-        // Set target details
-        // Mandatory fields
         target.description = databaseName
         target.url = url
         target.username = username
         target.password = password
-        target.database = databaseName
-
+        target.database =
         influxdb.addTarget(target)
         influxdb.save()
     }
@@ -55,5 +49,5 @@ def call(Map<String, Object> params) {
     dependencyCheckMap['highest-severity'] = highestSeverityMap
     dependencyCheckMap['normal-severity'] = normalSeverityMap
 
-    step([$class: 'InfluxDbPublisher', target: 'jenkins_codefluegel', selectedTarget: 'jenkins_codefluegel', customPrefix: null, customDataMap: dependencyCheckMap])
+    step([$class: 'InfluxDbPublisher', target: databaseName, selectedTarget: databaseName, customPrefix: null, customDataMap: dependencyCheckMap])
 }
