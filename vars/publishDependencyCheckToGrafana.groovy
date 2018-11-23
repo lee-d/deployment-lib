@@ -5,7 +5,7 @@ def call(Map<String, Object> params) {
     def username = params.username
     def password = params.password
     def reportPath = params.reportPath ?: "${workspace}/target/dependency-check-report.xml"
-    def influxdb = Jenkins.instance.getDescriptorByType(jenkinsci.plugins.influxdb.DescriptorImpl
+    def influxdb = Jenkins.instance.getDescriptorByType(jenkinsci.plugins.influxdb.DescriptorImpl)
 
     if (!influxdb.getTargets().any {it.description.equals(databaseName)})
         def target = new jenkinsci.plugins.influxdb.models.Target()
