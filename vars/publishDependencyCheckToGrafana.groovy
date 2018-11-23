@@ -1,25 +1,30 @@
 @NonCPS
 def call(Map<String, Object> params) {
-    def influxdb = Jenkins.instance.getDescriptorByType(jenkinsci.plugins.influxdb.DescriptorImpl)
+    def databaseName = params.databaseName
+    def url = params.url
+    def username = params.username
+    def password = params.password
+    def reportPath = params.reportPath ?: "${workspace}/target/dependency-check-report.xml"
 
+    def influxdb = Jenkins.instance.getDescriptorByType(jenkinsci.plugins.influxdb.DescriptorImpl
 
-    if (!influxdb.getTargets().any {it.description.equals('jenkins_codefluegel')}) {
+    if (!influxdb.getTargets().any {it.description.equals(databaseName)}) {
         // Create target
         def target = new jenkinsci.plugins.influxdb.models.Target()
 
         // Set target details
         // Mandatory fields
-        target.description = 'jenkins_codefluegel'
-        target.url = 'http://10.30.2.66:8086'
-        target.username = 'admin'
-        target.password = 'admin'
-        target.database = 'jenkins_codefluegel'
+        target.description = databaseName
+        target.url = url
+        target.username = username
+        target.password = password
+        target.database = databaseName
 
         influxdb.addTarget(target)
         influxdb.save()
     }
 
-    def analysis = new XmlSlurper().parse("${workspace}/target/dependency-check-report.xml")
+    def analysis = new XmlSlurper().parse(reportPath)
     def projectName = analysis.projectInfo.artifactID.text()
 
     def dependencyCheckMap = [:]
